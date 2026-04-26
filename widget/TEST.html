@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>اختبار Widget - Auto Scroll و إخفاء Scrollbar</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        .test-info {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-info h2 {
+            color: #1f2937;
+            margin-top: 0;
+        }
+        .test-info ul {
+            color: #6b7280;
+            line-height: 1.8;
+        }
+        .test-info li {
+            margin: 8px 0;
+        }
+        .success {
+            color: #16a34a;
+            font-weight: bold;
+        }
+        .instruction {
+            background: #fef3c7;
+            padding: 12px;
+            border-radius: 8px;
+            border-right: 4px solid #f59e0b;
+            margin: 12px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h2>✅ اختبار التعديلات الجديدة</h2>
+        
+        <div class="instruction">
+            <strong>📝 كيف تختبر:</strong>
+            <ol>
+                <li>أرسل 10-15 رسالة لملء المحادثة</li>
+                <li>قم بالصعود للأعلى (Scroll Up)</li>
+                <li>أرسل رسالة جديدة</li>
+                <li>يجب أن تنزل المحادثة تلقائياً للأسفل ✅</li>
+            </ol>
+        </div>
+        
+        <h3>التعديلات المطبقة:</h3>
+        <ul>
+            <li class="success">✅ إخفاء شريط التمرير (Scrollbar) نهائياً</li>
+            <li class="success">✅ Auto Scroll فوري عند إرسال رسالة</li>
+            <li class="success">✅ Auto Scroll فوري عند استقبال رسالة</li>
+            <li class="success">✅ Auto Scroll مع "جاري الكتابة"</li>
+            <li class="success">✅ تأكيد ثلاثي للنزول الكامل</li>
+        </ul>
+        
+        <h3>التفاصيل التقنية:</h3>
+        <ul>
+            <li><code>scrollbar-width: none</code> - Firefox</li>
+            <li><code>-ms-overflow-style: none</code> - IE/Edge</li>
+            <li><code>::-webkit-scrollbar { display: none }</code> - Chrome/Safari</li>
+            <li><code>scrollToBottom()</code> يتم استدعاءها 3 مرات لكل رسالة</li>
+            <li><code>requestAnimationFrame</code> للتأكيد المزدوج</li>
+        </ul>
+    </div>
+
+    <!-- Chat Widget -->
+    <div id="chat-widget-container" class="chat-widget-container">
+        <div id="chat-widget" class="chat-widget">
+            <!-- Header -->
+            <div id="chat-header" class="chat-widget-header">
+                <div class="chat-widget-header-info">
+                    <img id="store-logo" src="https://images.unsplash.com/photo-1634578198204-a3a28778cfb6?w=100" alt="Store Logo" class="chat-widget-logo">
+                    <h2 id="store-name" class="chat-widget-store-name">متجر الهدايا الحديث</h2>
+                </div>
+                <div class="chat-widget-header-actions">
+                    <button id="download-btn" class="chat-widget-icon-btn" title="تحميل المحادثة">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </button>
+                    <button id="close-btn" class="chat-widget-icon-btn" title="إغلاق">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="messages-container" class="chat-widget-messages">
+                <div id="empty-state" class="chat-widget-empty-state">
+                    <img src="https://images.unsplash.com/photo-1634578198204-a3a28778cfb6?w=100" alt="Store" class="chat-widget-empty-logo">
+                    <h3>مرحباً، كيف أستطيع أن أساعدك؟</h3>
+                    <p>نحن هنا للإجابة على جميع استفساراتك</p>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-widget-input-area">
+                <div id="attachment-preview" class="chat-widget-attachment-preview" style="display: none;">
+                    <div class="chat-widget-attachment-content">
+                        <div id="attachment-info" class="chat-widget-attachment-info"></div>
+                        <button id="remove-attachment" class="chat-widget-remove-attachment">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <form id="chat-form" class="chat-widget-input-box">
+                    <button type="submit" id="send-btn" class="chat-widget-send-btn" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                    <input type="text" id="message-input" placeholder="اكتب رسالتك..." autocomplete="off">
+                    <input type="file" id="file-input" accept="image/*,.pdf,.doc,.docx,.txt" style="display: none;">
+                    <button type="button" id="attach-btn" class="chat-widget-attach-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Rating Screen -->
+            <div id="rating-screen" class="chat-widget-rating-screen" style="display: none;">
+                <div class="chat-widget-rating-content">
+                    <h3>قيّم تجربتك</h3>
+                    <p>كيف كانت تجربتك في المحادثة مع <span id="rating-store-name">متجر الهدايا الحديث</span>؟</p>
+                    
+                    <div class="chat-widget-stars" id="rating-stars">
+                        <button class="chat-widget-star" data-rating="1">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                        <button class="chat-widget-star" data-rating="2">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                        <button class="chat-widget-star" data-rating="3">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                        <button class="chat-widget-star" data-rating="4">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                        <button class="chat-widget-star" data-rating="5">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <textarea id="rating-feedback" placeholder="أخبرنا برأيك... (اختياري)" rows="4"></textarea>
+                    
+                    <button id="submit-rating" class="chat-widget-submit-rating" disabled>إرسال التقييم</button>
+                    <button id="skip-rating" class="chat-widget-skip-rating">تخطي التقييم والعودة للمحادثة</button>
+                </div>
+
+                <div id="thank-you-screen" class="chat-widget-thank-you" style="display: none;">
+                    <div class="chat-widget-thank-you-emoji">✨</div>
+                    <h3>شكراً لك!</h3>
+                    <p>نقدر تقييمك ونسعى دائماً لتحسين خدماتنا</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div id="confirmation-modal" class="chat-widget-modal" style="display: none;">
+            <div class="chat-widget-modal-content">
+                <div class="chat-widget-modal-header">
+                    <h3>تأكيد الإغلاق</h3>
+                    <button id="modal-close" class="chat-widget-modal-close">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <p>هل تريد إنهاء المحادثة؟</p>
+                <div class="chat-widget-modal-actions">
+                    <button id="confirm-close" class="chat-widget-modal-btn-primary">إغلاق المحادثة</button>
+                    <button id="come-back-later" class="chat-widget-modal-btn-secondary">سأعود لاحقاً</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

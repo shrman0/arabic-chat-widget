@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>واجهة الشات - Widget</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Demo Page -->
+    <div class="demo-page">
+        <h1>مثال على دمج Widget الشات</h1>
+        <p>هذا مثال على كيفية ظهور Widget الشات داخل متجرك الإلكتروني</p>
+    </div>
+
+    <!-- Trigger Button -->
+    <button id="chat-widget-trigger" class="chat-widget-trigger">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+    </button>
+
+    <!-- ==============================
+         Chat Widget Container
+         ============================== -->
+    <div id="chat-widget-container" class="chat-widget-container">
+        <div id="chat-widget" class="chat-widget">
+
+            <!-- Header -->
+            <div id="chat-header" class="chat-widget-header">
+                <div class="chat-widget-header-info">
+                    <img id="store-logo"
+                         src="https://images.unsplash.com/photo-1634578198204-a3a28778cfb6?w=100"
+                         alt="Store Logo"
+                         class="chat-widget-logo">
+                    <div>
+                        <h2 id="store-name" class="chat-widget-store-name">متجر الهدايا الحديث</h2>
+                        <div class="chat-widget-online-status">
+                            <div class="chat-widget-online-dot"></div>
+                            <span class="chat-widget-online-text">وكيل الذكاء الاصطناعي</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-widget-header-actions">
+                    <button id="download-btn" class="chat-widget-icon-btn" title="تحميل المحادثة">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </button>
+                    <button id="close-btn" class="chat-widget-icon-btn" title="إغلاق">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Area — scrollbar fully hidden, always white -->
+            <div class="chat-widget-messages-wrapper">
+                <div id="messages-container" class="chat-widget-messages">
+                    <div id="empty-state" class="chat-widget-empty-state">
+                        <img src="https://images.unsplash.com/photo-1634578198204-a3a28778cfb6?w=100"
+                             alt="Store"
+                             class="chat-widget-empty-logo">
+                        <h3>مرحباً، كيف أستطيع أن أساعدك؟</h3>
+                        <p>نحن هنا للإجابة على جميع استفساراتك</p>
+                    </div>
+                    <!-- Messages injected here by script.js -->
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-widget-input-area">
+                <!-- Attachment Preview -->
+                <div id="attachment-preview" class="chat-widget-attachment-preview" style="display: none;">
+                    <div class="chat-widget-attachment-content">
+                        <div id="attachment-info" class="chat-widget-attachment-info"></div>
+                        <button id="remove-attachment" class="chat-widget-remove-attachment" aria-label="إزالة">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Input Box -->
+                <form id="chat-form" class="chat-widget-input-box">
+                    <!-- Send button: circle + upward arrow icon -->
+                    <button type="submit" id="send-btn" class="chat-widget-send-btn" disabled aria-label="إرسال">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="19" x2="12" y2="5"></line>
+                            <polyline points="5 12 12 5 19 12"></polyline>
+                        </svg>
+                    </button>
+                    <input type="text" id="message-input" placeholder="اكتب رسالتك..." autocomplete="off" dir="rtl">
+                    <input type="file" id="file-input" accept="image/*,.pdf,.doc,.docx,.txt" style="display: none;">
+                    <button type="button" id="attach-btn" class="chat-widget-attach-btn" aria-label="إرفاق ملف">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Branding Footer -->
+            <div class="chat-widget-footer">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" class="chat-widget-footer-logo" aria-hidden="true">
+                    <defs>
+                        <radialGradient id="fuqah-grad" cx="250" cy="250" fx="250" fy="250" r="349.5" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#00fff4"/>
+                            <stop offset=".1" stop-color="#00f5f1"/>
+                            <stop offset=".27" stop-color="#00ddec"/>
+                            <stop offset=".49" stop-color="#01b5e3"/>
+                            <stop offset=".74" stop-color="#027ed6"/>
+                            <stop offset="1" stop-color="#043cc8"/>
+                        </radialGradient>
+                    </defs>
+                    <path fill="url(#fuqah-grad)" d="M84.82,211.75h24.95v24.95h-24.95v-24.95ZM59.88,211.75h24.95v-24.95h-24.95v24.95ZM84.82,186.8h24.95v-24.95h-24.95v24.95ZM59.88,161.86h24.95v-24.95h-24.95v24.95ZM84.82,136.91h24.95v-24.95h-24.95v24.95ZM109.77,111.97h24.95v-24.95h-24.95v24.95ZM134.71,136.91h24.95v-24.95h-24.95v24.95ZM159.66,111.97h24.95v-24.95h-24.95v24.95ZM134.71,87.02h24.95v-24.95h-24.95v24.95ZM184.61,87.02h24.95v-24.95h-24.95v24.95ZM209.55,111.97h24.95v-24.95h-24.95v24.95ZM213.41,212.58h24.95v-24.95h-24.95v24.95ZM209.55,62.07h24.95v-24.95h-24.95v24.95ZM34.93,236.7h24.95v-24.95h-24.95v24.95ZM236.7,415.18v-24.95s-24.95,0-24.95,0v24.95s24.95,0,24.95,0ZM211.75,440.12v-24.95s-24.95,0-24.95,0v24.95s24.95,0,24.95,0ZM186.8,415.18v-24.95s-24.95,0-24.95,0v24.95s24.95,0,24.95,0ZM161.86,440.12v-24.95s-24.95,0-24.95,0v24.95s24.95,0,24.95,0ZM136.91,415.18v-24.95s-24.95,0-24.95,0v24.95s24.95,0,24.95,0ZM111.97,390.23v-24.95s-24.95,0-24.95,0v24.95s24.95,0,24.95,0ZM136.91,365.29v-24.95s-24.95,0-24.95,0v24.95s24.95,0,24.95,0ZM111.97,340.34v-24.95s-24.95,0-24.95,0v24.95s24.95,0,24.95,0ZM87.02,365.29v-24.95s-24.95,0-24.95,0v24.95s24.95,0,24.95,0ZM87.02,315.39v-24.95s-24.95,0-24.95,0v24.95s24.95,0,24.95,0ZM111.97,290.45v-24.95s-24.95,0-24.95,0v24.95s24.95,0,24.95,0ZM62.07,290.45v-24.95s-24.95,0-24.95,0v24.95s24.95,0,24.95,0ZM236.7,465.07v-24.95s-24.95,0-24.95,0v24.95s24.95,0,24.95,0ZM415.18,263.3h-24.95s0,24.95,0,24.95h24.95s0-24.95,0-24.95ZM440.12,288.25h-24.95s0,24.95,0,24.95h24.95s0-24.95,0-24.95ZM390.23,388.03h-24.95s0,24.95,0,24.95h24.95s0-24.95,0-24.95ZM340.34,388.03h-24.95s0,24.95,0,24.95h24.95s0-24.95,0-24.95ZM365.29,412.98h-24.95s0,24.95,0,24.95h24.95s0-24.95,0-24.95ZM315.39,412.98h-24.95s0,24.95,0,24.95h24.95s0-24.95,0-24.95ZM290.45,388.03h-24.95s0,24.95,0,24.95h24.95s0-24.95,0-24.95ZM290.45,437.93h-24.95s0,24.95,0,24.95h24.95s0-24.95,0-24.95ZM465.07,263.3h-24.95s0,24.95,0,24.95h24.95s0-24.95,0-24.95ZM263.3,84.82v24.95s24.95,0,24.95,0v-24.95s-24.95,0-24.95,0ZM288.25,59.88v24.95s24.95,0,24.95,0v-24.95s-24.95,0-24.95,0ZM313.2,84.82v24.95s24.95,0,24.95,0v-24.95s-24.95,0-24.95,0ZM338.14,59.88v24.95s24.95,0,24.95,0v-24.95s-24.95,0-24.95,0ZM363.09,84.82v24.95s24.95,0,24.95,0v-24.95s-24.95,0-24.95,0ZM388.03,109.77v24.95s24.95,0,24.95,0v-24.95s-24.95,0-24.95,0ZM363.09,134.71v24.95s24.95,0,24.95,0v-24.95s-24.95,0-24.95,0ZM388.03,159.66v24.95s24.95,0,24.95,0v-24.95s-24.95,0-24.95,0ZM412.98,134.71v24.95s24.95,0,24.95,0v-24.95s-24.95,0-24.95,0ZM412.98,184.61v24.95s24.95,0,24.95,0v-24.95s-24.95,0-24.95,0ZM388.03,209.55v24.95s24.95,0,24.95,0v-24.95s-24.95,0-24.95,0ZM437.93,209.55v24.95s24.95,0,24.95,0v-24.95s-24.95,0-24.95,0ZM263.3,34.93v24.95s24.95,0,24.95,0v-24.95s-24.95,0-24.95,0ZM263.3,187.63v24.95s72.48,0,72.48,0v-24.95s-72.48,0-72.48,0ZM164.22,237.53v24.95s171.57,0,171.57,0v-24.95s-171.57,0-171.57,0ZM164.22,287.42v24.95s83.65,0,83.65,0v-24.95s-83.65,0-83.65,0Z"/>
+                </svg>
+                <a href="https://www.fuqah.ai" target="_blank" rel="noopener noreferrer" class="chat-widget-footer-text">مدعوم من <strong>فقاعة AI</strong></a>
+            </div>
+
+            <!-- ── Rating Screen ── -->
+            <div id="rating-screen" class="chat-widget-rating-screen" style="display: none;">
+                <div class="chat-widget-rating-content" id="rating-content">
+                    <h3>قيّم تجربتك</h3>
+                    <p>كيف كانت تجربتك في المحادثة مع
+                        <span id="rating-store-name">متجر الهدايا الحديث</span>؟
+                    </p>
+
+                    <div class="chat-widget-stars" id="rating-stars">
+                        <button class="chat-widget-star" data-rating="1">
+                            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                        <button class="chat-widget-star" data-rating="2">
+                            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                        <button class="chat-widget-star" data-rating="3">
+                            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                        <button class="chat-widget-star" data-rating="4">
+                            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                        <button class="chat-widget-star" data-rating="5">
+                            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Feedback with visible border -->
+                    <textarea id="rating-feedback"
+                              placeholder="أخبرنا برأيك... (اختياري)"
+                              rows="4"
+                              dir="rtl"></textarea>
+
+                    <button id="submit-rating" class="chat-widget-submit-rating" disabled>إرسال التقييم</button>
+                    <button id="skip-rating" class="chat-widget-skip-rating">تخطي التقييم والعودة للمحادثة</button>
+                </div>
+
+                <!-- Thank You -->
+                <div id="thank-you-screen" class="chat-widget-thank-you" style="display: none;">
+                    <div class="chat-widget-thank-you-emoji">✨</div>
+                    <h3>شكراً لك!</h3>
+                    <p>نقدر تقييمك ونسعى دائماً لتحسين خدماتنا</p>
+                </div>
+            </div>
+
+            <!-- ── Ticket Created Screen ── -->
+            <div id="ticket-screen" class="chat-widget-ticket-screen" style="display: none;">
+                <div class="chat-widget-ticket-accent-bar"></div>
+
+                <div class="chat-widget-ticket-icon" id="ticket-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--theme-primary);">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+
+                <h3>تم تحويل محادث��ك إلى تذكرة</h3>
+                <p>سيتولى فريق الدعم متابعة طلبك<br>وسنرد عليك في أقرب وقت ممكن</p>
+
+                <div class="chat-widget-ticket-card">
+                    <div class="chat-widget-ticket-card-row">
+                        <span class="chat-widget-ticket-card-label">رقم التذكرة</span>
+                        <span class="chat-widget-ticket-id-badge" id="ticket-number">#TKT-00000</span>
+                    </div>
+                    <div class="chat-widget-ticket-card-row">
+                        <span class="chat-widget-ticket-card-label">الحالة</span>
+                        <span class="chat-widget-ticket-status">مفتوحة</span>
+                    </div>
+                    <div class="chat-widget-ticket-card-row">
+                        <span class="chat-widget-ticket-card-label">وقت الاستجابة</span>
+                        <span class="chat-widget-ticket-card-value">خلال 24 ساعة</span>
+                    </div>
+                </div>
+
+                <button id="ticket-close-btn" class="chat-widget-ticket-btn-primary">
+                    حسناً، شكراً لك
+                </button>
+                <button id="ticket-back-btn" class="chat-widget-ticket-btn-secondary">
+                    العودة إلى المحادثة
+                </button>
+            </div>
+
+        </div><!-- /chat-widget -->
+
+        <!-- Confirmation Modal (outside chat-widget so it overlays correctly) -->
+        <div id="confirmation-modal" class="chat-widget-modal" style="display: none;">
+            <div class="chat-widget-modal-content">
+                <div class="chat-widget-modal-header">
+                    <h3>إنهاء المحادثة</h3>
+                    <button id="modal-close" class="chat-widget-modal-close" aria-label="إغلاق">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <p>يمكنك إغلاق المحادثة، أو يمكنك رفع تذكرة إلى الدعم ليتابعها الفريق لاحقًا</p>
+                <div class="chat-widget-modal-actions">
+                    <button id="convert-to-ticket" class="chat-widget-modal-btn-ticket">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"></path>
+                        </svg>
+                        رفع تذكرة
+                    </button>
+                    <button id="confirm-close" class="chat-widget-modal-btn-close">إغلاق المحادثة</button>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /chat-widget-container -->
+
+    <script src="script.js"></script>
+</body>
+</html>

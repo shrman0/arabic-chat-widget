@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>اختبار تضمين الويدجت — سلة / زد</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            background: #f5f5f5;
+            min-height: 200vh; /* Scrollable page to test scroll lock */
+        }
+        .store-header {
+            background: #fff;
+            padding: 16px 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .store-name { font-size: 18px; font-weight: 700; color: #1f2937; }
+        .store-nav { display: flex; gap: 16px; }
+        .store-nav a { color: #6b7280; text-decoration: none; font-size: 14px; }
+        .products { max-width: 1200px; margin: 32px auto; padding: 0 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 24px; }
+        .product-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .product-img { width: 100%; height: 200px; background: #e5e7eb; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 14px; }
+        .product-info { padding: 16px; }
+        .product-name { font-size: 15px; font-weight: 600; color: #1f2937; margin-bottom: 8px; }
+        .product-price { font-size: 14px; color: #059669; font-weight: 700; }
+        .product-btn { margin-top: 12px; width: 100%; padding: 10px; background: #1f2937; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 14px; }
+        .banner { max-width: 1200px; margin: 32px auto; padding: 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; color: #fff; text-align: center; }
+        .banner h2 { font-size: 24px; margin-bottom: 8px; }
+        .banner p { font-size: 14px; opacity: 0.8; }
+        footer { text-align: center; padding: 32px; color: #9ca3af; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+    <!-- Simulated Store Header -->
+    <div class="store-header">
+        <div class="store-name">متجر تجريبي</div>
+        <div class="store-nav">
+            <a href="#">الرئيسية</a>
+            <a href="#">المنتجات</a>
+            <a href="#">من نحن</a>
+            <a href="#">تواصل معنا</a>
+        </div>
+    </div>
+
+    <!-- Banner -->
+    <div class="banner">
+        <h2>عروض نهاية الموسم</h2>
+        <p>خصومات تصل إلى 50% على جميع المنتجات</p>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products">
+        <div class="product-card">
+            <div class="product-img">صورة المنتج</div>
+            <div class="product-info">
+                <div class="product-name">حقيبة جلدية فاخرة</div>
+                <div class="product-price">٢٤٩ ر.س</div>
+                <button class="product-btn">أضف للسلة</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">صورة المنتج</div>
+            <div class="product-info">
+                <div class="product-name">ساعة يد كلاسيكية</div>
+                <div class="product-price">٥٩٩ ر.س</div>
+                <button class="product-btn">أضف للسلة</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">صورة المنتج</div>
+            <div class="product-info">
+                <div class="product-name">نظارة شمسية</div>
+                <div class="product-price">١٩٩ ر.س</div>
+                <button class="product-btn">أضف للسلة</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">صورة المنتج</div>
+            <div class="product-info">
+                <div class="product-name">عطر فاخر</div>
+                <div class="product-price">٣٤٩ ر.س</div>
+                <button class="product-btn">أضف للسلة</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">صورة المنتج</div>
+            <div class="product-info">
+                <div class="product-name">محفظة جلد طبيعي</div>
+                <div class="product-price">١٤٩ ر.س</div>
+                <button class="product-btn">أضف للسلة</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">صورة المنتج</div>
+            <div class="product-info">
+                <div class="product-name">قلم هدايا فاخر</div>
+                <div class="product-price">٧٩ ر.س</div>
+                <button class="product-btn">أضف للسلة</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة © 2026 — متجر تجريبي</p>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- THIS IS THE ONLY LINE NEEDED TO EMBED THE WIDGET          -->
+    <!-- In production: src="https://widget.fuqah.net/widget.js"   -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <script src="widget.js" charset="UTF-8" data-store-id="store_shrman"></script>
+
+</body>
+</html>

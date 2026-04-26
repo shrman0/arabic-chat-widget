@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>✅ FINAL TEST - Auto Scroll + No Scrollbar</title>
+    
+    <!-- Prevent caching -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+    
+    <style>
+        /* CRITICAL: Additional scrollbar hiding to ensure it works */
+        #messages-container {
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+        
+        #messages-container::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+            background: transparent !important;
+        }
+        
+        #messages-container::-webkit-scrollbar-track {
+            display: none !important;
+        }
+        
+        #messages-container::-webkit-scrollbar-thumb {
+            display: none !important;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        
+        .test-banner {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .test-banner h1 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+        
+        .test-banner p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        .test-steps {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .test-steps h2 {
+            color: #1f2937;
+            margin-top: 0;
+            font-size: 20px;
+        }
+        
+        .test-steps ol {
+            margin: 0;
+            padding-right: 20px;
+        }
+        
+        .test-steps li {
+            color: #4b5563;
+            line-height: 2;
+            margin: 8px 0;
+        }
+        
+        .status {
+            background: #f0fdf4;
+            border: 2px solid #16a34a;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 8px 0;
+            color: #166534;
+        }
+        
+        .status-item::before {
+            content: "✅";
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-banner">
+        <h1>✅ FINAL TEST VERSION</h1>
+        <p>Auto Scroll + Scrollbar Hidden - Full Implementation</p>
+    </div>
+
+    <div class="test-steps">
+        <h2>📋 How to Test:</h2>
+        <ol>
+            <li><strong>Send 10-15 messages</strong> to fill the chat area</li>
+            <li><strong>Scroll up</strong> to the top of the conversation</li>
+            <li><strong>Send a new message</strong> from the input field</li>
+            <li><strong>✅ Expected Result:</strong> Chat should automatically scroll to bottom and show the latest message</li>
+            <li><strong>Wait for AI response</strong> - it should also auto-scroll to bottom</li>
+        </ol>
+        
+        <div class="status">
+            <div class="status-item">Scrollbar is completely hidden</div>
+            <div class="status-item">Auto scroll on send message</div>
+            <div class="status-item">Auto scroll on receive message</div>
+            <div class="status-item">Auto scroll during typing indicator</div>
+        </div>
+    </div>
+
+    <!-- Chat Widget Container -->
+    <div id="chat-widget-container" class="chat-widget-container">
+        <div id="chat-widget" class="chat-widget">
+            <!-- Header -->
+            <div id="chat-header" class="chat-widget-header">
+                <div class="chat-widget-header-info">
+                    <img id="store-logo" src="https://images.unsplash.com/photo-1634578198204-a3a28778cfb6?w=100" alt="Store Logo" class="chat-widget-logo">
+                    <h2 id="store-name" class="chat-widget-store-name">متجر الهدايا الحديث</h2>
+                </div>
+                <div class="chat-widget-header-actions">
+                    <button id="download-btn" class="chat-widget-icon-btn" title="تحميل المحادثة">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </button>
+                    <button id="close-btn" class="chat-widget-icon-btn" title="إغلاق">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="messages-container" class="chat-widget-messages">
+                <div id="empty-state" class="chat-widget-empty-state">
+                    <img src="https://images.unsplash.com/photo-1634578198204-a3a28778cfb6?w=100" alt="Store" class="chat-widget-empty-logo">
+                    <h3>مرحباً، كيف أستطيع أن أساعدك؟</h3>
+                    <p>نحن هنا للإجابة على جميع استفساراتك</p>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-widget-input-area">
+                <div id="attachment-preview" class="chat-widget-attachment-preview" style="display: none;">
+                    <div class="chat-widget-attachment-content">
+                        <div id="attachment-info" class="chat-widget-attachment-info"></div>
+                        <button id="remove-attachment" class="chat-widget-remove-attachment">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <form id="chat-form" class="chat-widget-input-box">
+                    <button type="submit" id="send-btn" class="chat-widget-send-btn" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                    <input type="text" id="message-input" placeholder="اكتب رسالتك..." autocomplete="off">
+                    <input type="file" id="file-input" accept="image/*,.pdf,.doc,.docx,.txt" style="display: none;">
+                    <button type="button" id="attach-btn" class="chat-widget-attach-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Rating Screen -->
+            <div id="rating-screen" class="chat-widget-rating-screen" style="display: none;">
+                <div class="chat-widget-rating-content">
+                    <h3>قيّم تجربتك</h3>
+                    <p>كيف كانت تجربتك في المحادثة مع <span id="rating-store-name">متجر الهدايا الحديث</span>؟</p>
+                    
+                    <div class="chat-widget-stars" id="rating-stars">
+                        <button class="chat-widget-star" data-rating="1">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                        <button class="chat-widget-star" data-rating="2">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                        <button class="chat-widget-star" data-rating="3">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                        <button class="chat-widget-star" data-rating="4">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                        <button class="chat-widget-star" data-rating="5">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <textarea id="rating-feedback" placeholder="أخبرنا برأيك... (اختياري)" rows="4"></textarea>
+                    
+                    <button id="submit-rating" class="chat-widget-submit-rating" disabled>إرسال التقييم</button>
+                    <button id="skip-rating" class="chat-widget-skip-rating">تخطي التقييم والعودة للمحادثة</button>
+                </div>
+
+                <div id="thank-you-screen" class="chat-widget-thank-you" style="display: none;">
+                    <div class="chat-widget-thank-you-emoji">✨</div>
+                    <h3>شكراً لك!</h3>
+                    <p>نقدر تقييمك ونسعى دائماً لتحسين خدماتنا</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div id="confirmation-modal" class="chat-widget-modal" style="display: none;">
+            <div class="chat-widget-modal-content">
+                <div class="chat-widget-modal-header">
+                    <h3>تأكيد الإغلاق</h3>
+                    <button id="modal-close" class="chat-widget-modal-close">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <p>هل تريد إنهاء المحادثة؟</p>
+                <div class="chat-widget-modal-actions">
+                    <button id="confirm-close" class="chat-widget-modal-btn-primary">إغلاق المحادثة</button>
+                    <button id="come-back-later" class="chat-widget-modal-btn-secondary">سأعود لاحقاً</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    
+    <script>
+        // Additional verification on load
+        console.log('✅ FINAL TEST VERSION LOADED');
+        console.log('✅ Scrollbar hiding: ACTIVE');
+        console.log('✅ Auto scroll: ACTIVE');
+        
+        // Force scrollbar to be hidden
+        document.addEventListener('DOMContentLoaded', function() {
+            const messagesContainer = document.getElementById('messages-container');
+            if (messagesContainer) {
+                console.log('✅ Messages container found');
+                console.log('Scrollbar width:', messagesContainer.offsetWidth - messagesContainer.clientWidth);
+            }
+        });
+    </script>
+</body>
+</html>
