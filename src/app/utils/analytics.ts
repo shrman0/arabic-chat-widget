@@ -23,6 +23,14 @@
 import { projectId, publicAnonKey } from '/utils/supabase/info';
 
 const BASE = `https://${projectId}.supabase.co/functions/v1/make-server-fc841b6e`;
+const FALLBACK_STORE_ID = 'store_shrman';
+
+function resolveStoreId(storeId: string): string {
+  const normalized = storeId?.trim();
+  return !normalized || normalized === 'store_default' || normalized === 'default'
+    ? FALLBACK_STORE_ID
+    : normalized;
+}
 
 function post(route: string, body: unknown): void {
   try {
@@ -54,7 +62,7 @@ export interface EventPayload {
 export function trackEvent(type: string, ctx: EventContext, payload?: EventPayload): void {
   post('/events', {
     type,
-    storeId: ctx.storeId,
+    storeId: resolveStoreId(ctx.storeId),
     conversationId: ctx.conversationId,
     ticketId: ctx.ticketId,
     payload: payload ?? {},
@@ -69,7 +77,7 @@ export function trackEvent(type: string, ctx: EventContext, payload?: EventPaylo
 
 export function startConversation(ctx: EventContext): void {
   post('/conversations/start', {
-    storeId: ctx.storeId,
+    storeId: resolveStoreId(ctx.storeId),
     conversationId: ctx.conversationId,
     startedAt: new Date().toISOString(),
   });
@@ -85,14 +93,14 @@ export interface PostMessageBody {
 
 export function postMessage(ctx: EventContext, body: PostMessageBody): void {
   post(`/conversations/${encodeURIComponent(ctx.conversationId)}/messages`, {
-    storeId: ctx.storeId,
+    storeId: resolveStoreId(ctx.storeId),
     ...body,
   });
 }
 
 export function postFeedback(ctx: EventContext, messageId: string, feedback: 'up' | 'down' | null): void {
   post(`/messages/${encodeURIComponent(messageId)}/feedback`, {
-    storeId: ctx.storeId,
+    storeId: resolveStoreId(ctx.storeId),
     conversationId: ctx.conversationId,
     feedback,
   });
@@ -102,7 +110,7 @@ export function postTicket(ctx: EventContext, body: {
   phone: string; dialCode: string; source: 'inline' | 'form';
 }): void {
   post('/tickets', {
-    storeId: ctx.storeId,
+    storeId: resolveStoreId(ctx.storeId),
     conversationId: ctx.conversationId,
     ticketId: ctx.ticketId,
     ...body,
@@ -114,7 +122,7 @@ export function postRating(ctx: EventContext, body: {
   stars: number; feedback?: string; skipped?: boolean;
 }): void {
   post('/ratings', {
-    storeId: ctx.storeId,
+    storeId: resolveStoreId(ctx.storeId),
     conversationId: ctx.conversationId,
     ...body,
     submittedAt: new Date().toISOString(),
@@ -126,7 +134,7 @@ export function closeConversation(
   reason: 'manual' | 'ai' | 'inactivity' | 'rating_skip' | 'rating_submit',
 ): void {
   post(`/conversations/${encodeURIComponent(ctx.conversationId)}/close`, {
-    storeId: ctx.storeId,
+    storeId: resolveStoreId(ctx.storeId),
     reason,
     closedAt: new Date().toISOString(),
   });
