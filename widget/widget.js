@@ -19,7 +19,7 @@
     return scripts[scripts.length - 1];
   })();
 
-  var STORE_ID = scriptTag.getAttribute('data-store-id') || 'default';
+  var STORE_ID = scriptTag.getAttribute('data-store-id') || 'store_shrman';
   console.log('[Fuqah] Loader starting, storeId=' + STORE_ID);
   var BASE_URL = (function () {
     var src = scriptTag.getAttribute('src') || '';
