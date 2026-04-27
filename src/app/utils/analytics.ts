@@ -100,7 +100,7 @@ export function postMessage(ctx: EventContext, body: PostMessageBody): void {
 
 export function postFeedback(ctx: EventContext, messageId: string, feedback: 'up' | 'down' | null): void {
   post(`/messages/${encodeURIComponent(messageId)}/feedback`, {
-    storeId: ctx.storeId,
+    storeId: resolveStoreId(ctx.storeId),
     conversationId: ctx.conversationId,
     feedback,
   });
@@ -110,7 +110,7 @@ export function postTicket(ctx: EventContext, body: {
   phone: string; dialCode: string; source: 'inline' | 'form';
 }): void {
   post('/tickets', {
-    storeId: ctx.storeId,
+    storeId: resolveStoreId(ctx.storeId),
     conversationId: ctx.conversationId,
     ticketId: ctx.ticketId,
     ...body,
@@ -122,7 +122,7 @@ export function postRating(ctx: EventContext, body: {
   stars: number; feedback?: string; skipped?: boolean;
 }): void {
   post('/ratings', {
-    storeId: ctx.storeId,
+    storeId: resolveStoreId(ctx.storeId),
     conversationId: ctx.conversationId,
     ...body,
     submittedAt: new Date().toISOString(),
@@ -134,7 +134,7 @@ export function closeConversation(
   reason: 'manual' | 'ai' | 'inactivity' | 'rating_skip' | 'rating_submit',
 ): void {
   post(`/conversations/${encodeURIComponent(ctx.conversationId)}/close`, {
-    storeId: ctx.storeId,
+    storeId: resolveStoreId(ctx.storeId),
     reason,
     closedAt: new Date().toISOString(),
   });
