@@ -62,7 +62,7 @@ export function FloatingWidget({
   storeName = "Fuqah AI",
   storeLogo,
   storeIcon,
-  storeId = "store_default",
+  storeId = "store_shrman",
   themeSettings,
 }: FloatingWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);

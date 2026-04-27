@@ -276,6 +276,7 @@ function AppContent({ branding, isReady }: { branding: StoreBranding; isReady: b
         <FloatingWidget
           theme={activeTheme}
           position={effectivePosition}
+          storeId="store_shrman"
           storeName={branding.storeName}
           storeLogo={branding.storeLogo}
           storeIcon={branding.storeIcon}
